@@ -1,0 +1,102 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.login-bg { position: absolute; inset: 0; pointer-events: none; }
+.login-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.12;
+}
+.login-orb--1 { width: 500px; height: 500px; background: var(--primary); top: -200px; right: -200px; }
+.login-orb--2 { width: 400px; height: 400px; background: var(--accent); bottom: -150px; left: -150px; }
+
+.login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-card__header { text-align: center; margin-bottom: 32px; }
+.login-card__logo {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--gradient);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: white;
+  font-family: var(--font-display);
+  margin: 0 auto 16px;
+  box-shadow: var(--shadow-primary);
+}
+.login-card__header h1 { font-size: 1.5rem; margin-bottom: 6px; }
+.login-card__header p { color: var(--text-muted); font-size: 0.9rem; }
+
+.login-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #EF4444;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+
+.login-input-wrap { position: relative; }
+.login-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.login-input { padding-left: 42px !important; }
+.login-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+.login-eye-btn:hover { color: var(--text-primary); }
+
+.login-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 1rem;
+}
+
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.88rem;
+}
+.login-footer a { color: var(--text-muted); transition: var(--transition); }
+.login-footer a:hover { color: var(--primary-light); }
+
+@media (max-width: 480px) {
+  .login-card { padding: 32px 24px; }
+}

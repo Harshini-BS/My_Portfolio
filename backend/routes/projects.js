@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const { projectController } = require('../controller/controllers');
+const { protect } = require('../middleware/auth');
+const { uploadImage } = require('../middleware/upload');
+router.get('/', projectController.getAll);
+router.get('/:id', projectController.getOne);
+router.post('/', protect, uploadImage.single('image'), projectController.create);
+router.put('/:id', protect, uploadImage.single('image'), projectController.update);
+router.delete('/:id', protect, projectController.delete);
+module.exports = router;

@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const createCRUD = require('../controller/crudController');
+const { Experience } = require('../models/index');
+const { protect } = require('../middleware/auth');
+const crud = createCRUD(Experience);
+router.get('/', crud.getAll);
+router.get('/:id', crud.getOne);
+router.post('/', protect, crud.create);
+router.put('/:id', protect, crud.update);
+router.delete('/:id', protect, crud.delete);
+module.exports = router;
