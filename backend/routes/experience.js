@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const createCRUD = require('../controller/crudController');
+const createCRUD = require('../controller/crudcontroller');
 const { Experience } = require('../models/index');
 const { protect } = require('../middleware/auth');
 const crud = createCRUD(Experience);

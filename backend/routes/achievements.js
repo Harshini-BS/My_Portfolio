@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const createCRUD = require('../controller/crudController');
+const createCRUD = require('../controller/crudcontroller');
 const { Achievement } = require('../models/index');
 const { protect } = require('../middleware/auth');
 const { uploadImage } = require('../middleware/upload');
