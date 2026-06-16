@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import api, { getImageUrl } from '../utils/api.jsx';
-import './Achievements.css';
+import './achievements.css';
 
 const CATEGORY_ICONS = { Award: '🏆', Competition: '🥇', Hackathon: '💡', 'Paper Presentation': '📄', Other: '⭐' };
 

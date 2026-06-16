@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheckCircle } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 import api from '../utils/api.jsx';
-import './Contact.css';
+import './contact.css';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });

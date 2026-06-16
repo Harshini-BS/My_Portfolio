@@ -8,7 +8,7 @@ import {
   FiBriefcase, FiStar, FiLogOut, FiMenu, FiX, FiSun, FiMoon,
   FiUser, FiBook, FiMessageSquare, FiUpload, FiHome
 } from 'react-icons/fi';
-import './AdminLayout.css';
+import './adminLayout.css';
 
 const navItems = [
   { path: '/admin', icon: FiGrid, label: 'Dashboard', exact: true },

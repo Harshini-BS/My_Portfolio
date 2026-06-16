@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiSearch, FiFilter } from 'react-icons/fi';
 import api, { getImageUrl } from '../utils/api.jsx';
-import './Projects.css';
+import './projects.css';
 
 const DEFAULT_PROJECTS = [
   {

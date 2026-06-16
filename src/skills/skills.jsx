@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import api from '../utils/api.jsx';
-import './Skills.css';
+import './skills.css';
 
 const DEFAULT_SKILLS = [
   { name: 'React.js', category: 'Frontend', proficiency: 85 },
