@@ -58,3 +58,6 @@ const createCRUD = (Model, populateFields = '') => ({
 });
 
 module.exports = createCRUD;
+
+
+

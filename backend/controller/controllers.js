@@ -208,15 +208,60 @@ exports.analyticsController = {
 };
 
 // ===== RESUME CONTROLLER =====
+// exports.resumeController = {
+//   upload: async (req, res) => {
+//     try {
+//       if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
+//       await Resume.deleteMany({});
+//       const resume = await Resume.create({
+//         filename: req.file.filename,
+//         originalName: req.file.originalname,
+//         path: `/uploads/resumes/${req.file.filename}`
+//       });
+//       res.json({ success: true, data: resume, message: 'Resume uploaded successfully' });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   },
+//   get: async (req, res) => {
+//     try {
+//       const resume = await Resume.findOne().sort({ createdAt: -1 });
+//       res.json({ success: true, data: resume });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   },
+//   download: async (req, res) => {
+//     try {
+//       const resume = await Resume.findOne().sort({ createdAt: -1 });
+//       if (!resume) return res.status(404).json({ success: false, message: 'No resume found' });
+//       const filePath = path.join(__dirname, '../uploads/resumes', resume.filename);
+//       if (!fs.existsSync(filePath)) return res.status(404).json({ success: false, message: 'File not found' });
+//       res.download(filePath, resume.originalName);
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   },
+//   delete: async (req, res) => {
+//     try {
+//       await Resume.deleteMany({});
+//       res.json({ success: true, message: 'Resume deleted' });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   }
+// };
+
+
 exports.resumeController = {
   upload: async (req, res) => {
     try {
       if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
       await Resume.deleteMany({});
       const resume = await Resume.create({
-        filename: req.file.filename,
+        filename: req.file.filename || req.file.public_id,
         originalName: req.file.originalname,
-        path: `/uploads/resumes/${req.file.filename}`
+        path: req.file.path || req.file.secure_url, // Cloudinary returns secure_url
       });
       res.json({ success: true, data: resume, message: 'Resume uploaded successfully' });
     } catch (error) {
@@ -235,9 +280,8 @@ exports.resumeController = {
     try {
       const resume = await Resume.findOne().sort({ createdAt: -1 });
       if (!resume) return res.status(404).json({ success: false, message: 'No resume found' });
-      const filePath = path.join(__dirname, '../uploads/resumes', resume.filename);
-      if (!fs.existsSync(filePath)) return res.status(404).json({ success: false, message: 'File not found' });
-      res.download(filePath, resume.originalName);
+      // Redirect to Cloudinary URL
+      res.redirect(resume.path);
     } catch (error) {
       res.status(500).json({ success: false, message: error.message });
     }
@@ -253,6 +297,32 @@ exports.resumeController = {
 };
 
 // ===== PROFILE CONTROLLER =====
+// exports.profileController = {
+//   get: async (req, res) => {
+//     try {
+//       let profile = await Profile.findOne();
+//       if (!profile) profile = await Profile.create({});
+//       res.json({ success: true, data: profile });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   },
+//   update: async (req, res) => {
+//     try {
+//       const data = { ...req.body };
+//       if (req.file) data.profileImage = `/uploads/profile/${req.file.filename}`;
+//       if (data.typingTexts && typeof data.typingTexts === 'string') data.typingTexts = data.typingTexts.split(',').map(t => t.trim());
+//       let profile = await Profile.findOne();
+//       if (!profile) profile = await Profile.create(data);
+//       else { Object.assign(profile, data); await profile.save(); }
+//       res.json({ success: true, data: profile, message: 'Profile updated' });
+//     } catch (error) {
+//       res.status(400).json({ success: false, message: error.message });
+//     }
+//   }
+// };
+
+
 exports.profileController = {
   get: async (req, res) => {
     try {
@@ -266,8 +336,11 @@ exports.profileController = {
   update: async (req, res) => {
     try {
       const data = { ...req.body };
-      if (req.file) data.profileImage = `/uploads/profile/${req.file.filename}`;
-      if (data.typingTexts && typeof data.typingTexts === 'string') data.typingTexts = data.typingTexts.split(',').map(t => t.trim());
+      // Cloudinary returns secure_url
+      if (req.file) data.profileImage = req.file.path || req.file.secure_url;
+      if (data.typingTexts && typeof data.typingTexts === 'string') {
+        data.typingTexts = data.typingTexts.split(',').map(t => t.trim());
+      }
       let profile = await Profile.findOne();
       if (!profile) profile = await Profile.create(data);
       else { Object.assign(profile, data); await profile.save(); }
@@ -277,6 +350,7 @@ exports.profileController = {
     }
   }
 };
+ 
 
 // ===== GITHUB CONTROLLER =====
 exports.githubController = {
@@ -316,3 +390,5 @@ exports.githubController = {
     }
   }
 };
+
+
