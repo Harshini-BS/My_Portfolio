@@ -62,6 +62,16 @@ const profileStorage = new CloudinaryStorage({
   },
 });
 
+// // Resume storage (PDF)
+// const resumeStorage = new CloudinaryStorage({
+//   cloudinary,
+//   params: {
+//     folder: 'portfolio/resumes',
+//     allowed_formats: ['pdf'],
+//     resource_type: 'raw',
+//   },
+// });
+
 // Resume storage (PDF)
 const resumeStorage = new CloudinaryStorage({
   cloudinary,
@@ -69,6 +79,7 @@ const resumeStorage = new CloudinaryStorage({
     folder: 'portfolio/resumes',
     allowed_formats: ['pdf'],
     resource_type: 'raw',
+    flags: 'attachment:false',
   },
 });
 
