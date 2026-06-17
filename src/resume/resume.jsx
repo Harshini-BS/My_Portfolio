@@ -51,7 +51,8 @@ const Resume = () => {
               <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a
                   // href={`${BACKEND_URL}${resume.path}`}
-                  href={resume.path}
+                  // href={resume.path}
+                  href={`https://docs.google.com/viewer?url=${encodeURIComponent(resume.path)}&embedded=true`}
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-outline"
