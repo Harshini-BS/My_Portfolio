@@ -8,7 +8,8 @@ const crud = createCRUD(Achievement);
 router.get('/', crud.getAll);
 router.get('/:id', crud.getOne);
 router.post('/', protect, uploadImage.single('image'), async (req, res) => {
-  if (req.file) req.body.image = `/uploads/images/${req.file.filename}`;
+  // if (req.file) req.body.image = `/uploads/images/${req.file.filename}`;
+  if (req.file) req.body.image = req.file.path || req.file.secure_url;
   return crud.create(req, res);
 });
 router.put('/:id', protect, uploadImage.single('image'), async (req, res) => {

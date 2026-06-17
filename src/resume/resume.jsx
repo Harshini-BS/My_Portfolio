@@ -50,7 +50,8 @@ const Resume = () => {
             ) : resume ? (
               <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a
-                  href={`${BACKEND_URL}${resume.path}`}
+                  // href={`${BACKEND_URL}${resume.path}`}
+                  href={resume.path}
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-outline"

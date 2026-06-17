@@ -31,7 +31,8 @@ exports.projectController = {
   create: async (req, res) => {
     try {
       const data = { ...req.body };
-      if (req.file) data.image = `/uploads/images/${req.file.filename}`;
+      // if (req.file) data.image = `/uploads/images/${req.file.filename}`;
+      if (req.file) data.image = req.file.path || req.file.secure_url; // Cloudinary returns secure_url
       if (data.technologies && typeof data.technologies === 'string') data.technologies = data.technologies.split(',').map(t => t.trim());
       const project = await Project.create(data);
       res.status(201).json({ success: true, data: project, message: 'Project created' });
@@ -42,7 +43,8 @@ exports.projectController = {
   update: async (req, res) => {
     try {
       const data = { ...req.body };
-      if (req.file) data.image = `/uploads/images/${req.file.filename}`;
+      // if (req.file) data.image = `/uploads/images/${req.file.filename}`;
+      if (req.file) data.image = req.file.path || req.file.secure_url; // Cloudinary returns secure_url
       if (data.technologies && typeof data.technologies === 'string') data.technologies = data.technologies.split(',').map(t => t.trim());
       const project = await Project.findByIdAndUpdate(req.params.id, data, { new: true });
       if (!project) return res.status(404).json({ success: false, message: 'Not found' });
@@ -62,74 +64,7 @@ exports.projectController = {
   }
 };
 
-// ===== BLOG CONTROLLER =====
-exports.blogController = {
-  getAll: async (req, res) => {
-    try {
-      const { search, category, published } = req.query;
-      let query = {};
-      if (search) query.$or = [{ title: { $regex: search, $options: 'i' } }, { content: { $regex: search, $options: 'i' } }, { tags: { $in: [new RegExp(search, 'i')] } }];
-      if (category && category !== 'all') query.category = category;
-      if (published !== undefined) query.published = published === 'true';
-      else query.published = true; // public only sees published
-      const blogs = await Blog.find(query).sort({ createdAt: -1 });
-      res.json({ success: true, data: blogs, count: blogs.length });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  },
-  getAllAdmin: async (req, res) => {
-    try {
-      const blogs = await Blog.find().sort({ createdAt: -1 });
-      res.json({ success: true, data: blogs, count: blogs.length });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  },
-  getOne: async (req, res) => {
-    try {
-      const blog = await Blog.findOne({ $or: [{ _id: req.params.id }, { slug: req.params.id }] });
-      if (!blog) return res.status(404).json({ success: false, message: 'Blog not found' });
-      blog.views += 1;
-      await blog.save();
-      res.json({ success: true, data: blog });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  },
-  create: async (req, res) => {
-    try {
-      const data = { ...req.body };
-      if (req.file) data.image = `/uploads/images/${req.file.filename}`;
-      if (data.tags && typeof data.tags === 'string') data.tags = data.tags.split(',').map(t => t.trim());
-      if (!data.excerpt && data.content) data.excerpt = data.content.substring(0, 200) + '...';
-      const blog = await Blog.create(data);
-      res.status(201).json({ success: true, data: blog, message: 'Blog created' });
-    } catch (error) {
-      res.status(400).json({ success: false, message: error.message });
-    }
-  },
-  update: async (req, res) => {
-    try {
-      const data = { ...req.body };
-      if (req.file) data.image = `/uploads/images/${req.file.filename}`;
-      if (data.tags && typeof data.tags === 'string') data.tags = data.tags.split(',').map(t => t.trim());
-      const blog = await Blog.findByIdAndUpdate(req.params.id, data, { new: true });
-      if (!blog) return res.status(404).json({ success: false, message: 'Not found' });
-      res.json({ success: true, data: blog, message: 'Blog updated' });
-    } catch (error) {
-      res.status(400).json({ success: false, message: error.message });
-    }
-  },
-  delete: async (req, res) => {
-    try {
-      await Blog.findByIdAndDelete(req.params.id);
-      res.json({ success: true, message: 'Blog deleted' });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  }
-};
+
 
 // ===== MESSAGE CONTROLLER =====
 exports.messageController = {
