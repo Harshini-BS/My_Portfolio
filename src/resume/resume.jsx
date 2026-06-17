@@ -60,7 +60,12 @@ const Resume = () => {
                   <FiEye /> View Resume
                 </a>
                 <a
-                  href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/resume/download`}
+                  // href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/resume/download`}
+                  // className="btn btn-primary"
+                  // download
+                   href={resume.path}
+                  target="_blank"
+                  rel="noreferrer"
                   className="btn btn-primary"
                   download
                 >
